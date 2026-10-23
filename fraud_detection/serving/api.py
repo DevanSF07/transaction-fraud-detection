@@ -41,13 +41,9 @@ async def lifespan(app: FastAPI):
             logger.warning(f"Failed to load existing checkpoint: {e}. Rebuilding...")
 
     if not loaded:
-        logger.info("Artifact not found; fitting warmup pipeline on stratified sample...")
-        df_sample = generate_benchmark_dataset(
-            total_samples=1500,
-            fraud_samples=25,
-            missing_values_to_inject=10,
-            random_state=42
-        )
+        logger.info("Artifact not found; fitting warmup pipeline on real dataset sample...")
+        from fraud_detection.data.loader import load_dataset
+        df_sample = load_dataset(sample_size=1500, allow_synthetic_fallback=True)
         X = df_sample.drop(columns=['Class'])
         y = df_sample['Class']
         pipeline_instance = FraudDetectionPipeline()

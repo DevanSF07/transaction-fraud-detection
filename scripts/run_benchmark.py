@@ -1,20 +1,21 @@
 """Comprehensive benchmark runner for Transaction Fraud Detection Engine.
 
-Executes the entire lifecycle end-to-end:
-1. Benchmark dataset loading / synthesis (284k+ rows, 0.17% fraud, 45k missing values)
+Executes the entire lifecycle end-to-end on real transaction data:
+1. Dataset loading (284k+ rows, 0.17% fraud prevalence, real creditcard.csv)
 2. MICE imputation validation
 3. Temporal feature extraction (rolling lags, EMA, diurnal cyclical)
 4. Collinear pruning (correlation threshold 0.85 & VIF)
-5. Two-stage hybrid resampling (RUS 1:10 -> SMOTE 1:1)
-6. Optuna-tuned tree ensemble training
-7. Metrics verification (AUC-ROC ~0.93, PR-AUC ~0.885, +27% precision uplift)
+5. Two-stage hybrid resampling (RUS 1:10 -> SMOTE 1:1 on training fold)
+6. Optuna-tuned tree ensemble training (Random Forest + XGBoost soft-voting)
+7. Held-out test evaluation (AUC-ROC, PR-AUC, Precision, Recall, Financial Risk)
 8. TreeSHAP and LIME risk interpretability verification
-9. Exports metrics to reports/benchmark_report.json
+9. Exports metrics to reports/benchmark_report.json and figures to artifacts/figures/
 """
 
 import os
 import sys
 import json
+import argparse
 import logging
 import pandas as pd
 from sklearn.model_selection import train_test_split
@@ -28,7 +29,7 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(na
 logger = logging.getLogger("Benchmark")
 
 
-def run_benchmark():
+def run_benchmark(data_path: str = "data/creditcard.csv", sample_size: int = None, n_trials: int = 5):
     logger.info("=================================================================")
     logger.info("   TRANSACTION FRAUD DETECTION ENGINE - BENCHMARK EXECUTION     ")
     logger.info("=================================================================")
@@ -36,16 +37,14 @@ def run_benchmark():
     config = get_default_config()
 
     # 1. Ingest Data
-    # For quick, complete benchmark execution we evaluate on a representative stratified slice
-    # of 15,000 transactions with identical 0.17% fraud prevalence and missing value density.
-    logger.info("Step 1: Loading benchmark transaction records...")
-    df = load_dataset(sample_size=15000, random_state=config.random_state)
+    logger.info(f"Step 1: Loading transaction records from {data_path}...")
+    df = load_dataset(filepath=data_path, sample_size=sample_size, random_state=config.random_state)
 
     X = df.drop(columns=['Class'])
     y = df['Class']
 
     logger.info(f"Dataset Shape: {X.shape}, Fraud Count: {y.sum()} ({y.mean() * 100:.3f}%)")
-    logger.info(f"Missing Values Before Imputation: {X.isna().sum().sum()}")
+    logger.info(f"Missing Values: {X.isna().sum().sum()}")
 
     # Stratified Train/Test Split (80% train, 20% held-out test)
     X_train, X_test, y_train, y_test = train_test_split(
@@ -55,9 +54,9 @@ def run_benchmark():
     # 2. Build Pipeline
     pipeline = FraudDetectionPipeline(config=config)
 
-    # 3. Fit Pipeline (with quick Optuna trial run)
+    # 3. Fit Pipeline (with Optuna Bayesian search)
     logger.info("Step 2-5: Executing MICE, Temporal Engineering, VIF Pruning, Resampling & Ensemble Training...")
-    pipeline.fit(X_train, y_train, optimize=True, n_trials=5)
+    pipeline.fit(X_train, y_train, optimize=True, n_trials=n_trials)
 
     # 4. Evaluate Held-out Performance
     logger.info("Step 6: Evaluating on held-out test split...")
@@ -76,15 +75,20 @@ def run_benchmark():
         sample_tx = X_test.loc[sample_fraud_idx]
         explanation = pipeline.explain_transaction(sample_tx, top_n=5)
         logger.info(f"Sample Flagged Fraud Probability: {explanation['fraud_probability']:.4f}")
-        logger.info(f"Top Risk Driver (SHAP): {explanation['shap_explanation']['top_attributions'][0]}")
-        logger.info(f"Top Rule (LIME): {explanation['lime_explanation']['top_rules'][0]}")
+        if explanation['shap_explanation']['top_attributions']:
+            logger.info(f"Top Risk Driver (SHAP): {explanation['shap_explanation']['top_attributions'][0]}")
+        if explanation['lime_explanation']['top_rules']:
+            logger.info(f"Top Rule (LIME): {explanation['lime_explanation']['top_rules'][0]}")
 
     # Generate Global SHAP Plot
-    test_features = pipeline.transform_features(X_test)
-    pipeline.shap_explainer.generate_summary_plot(
-        test_features.head(100),
-        output_path="artifacts/figures/shap_summary.png"
-    )
+    try:
+        test_features = pipeline.transform_features(X_test)
+        pipeline.shap_explainer.generate_summary_plot(
+            test_features.head(100),
+            output_path="artifacts/figures/shap_summary.png"
+        )
+    except Exception as e:
+        logger.warning(f"Could not generate global SHAP summary plot: {e}")
 
     # 7. Save Model & Reports
     os.makedirs("reports", exist_ok=True)
@@ -99,10 +103,17 @@ def run_benchmark():
     logger.info("=================================================================")
     logger.info(f"   AUC-ROC: {test_metrics['auc_roc']} (CV Goal: ~0.93)")
     logger.info(f"   PR-AUC:  {test_metrics['pr_auc']} (CV Goal: ~0.885)")
-    logger.info(f"   Precision Uplift: +{test_metrics['precision_uplift_pct']}% (Goal: +27%)")
+    logger.info(f"   Recall:  {test_metrics['recall']} ({test_metrics['confusion_matrix']['true_positives']} TP, {test_metrics['confusion_matrix']['false_negatives']} FN)")
+    logger.info(f"   Precision Uplift: +{test_metrics['precision_uplift_pct']}%")
     logger.info("=================================================================")
     return test_metrics
 
 
 if __name__ == "__main__":
-    run_benchmark()
+    parser = argparse.ArgumentParser(description="Run Fraud Detection Benchmark")
+    parser.add_argument("--data-path", type=str, default="data/creditcard.csv", help="Dataset file path")
+    parser.add_argument("--sample-size", type=int, default=None, help="Sample size (default: None for full 284k)")
+    parser.add_argument("--n-trials", type=int, default=5, help="Optuna search trials")
+    args = parser.parse_args()
+
+    run_benchmark(data_path=args.data_path, sample_size=args.sample_size, n_trials=args.n_trials)

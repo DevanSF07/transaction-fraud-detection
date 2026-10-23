@@ -13,18 +13,29 @@ EXPECTED_COLUMNS = ['Time'] + [f'V{i}' for i in range(1, 29)] + ['Amount', 'Clas
 
 def load_dataset(
     filepath: Optional[str] = None,
-    allow_synthetic_fallback: bool = True,
+    allow_synthetic_fallback: bool = False,
     sample_size: Optional[int] = None,
     random_state: int = 42
 ) -> pd.DataFrame:
-    """Load transaction records from CSV or parquet, falling back to synthesis if absent."""
-    df = None
+    """Load transaction records from CSV or parquet, prioritizing real creditcard.csv."""
+    target_path = None
     if filepath and os.path.exists(filepath):
-        logger.info(f"Loading transaction records from {filepath}")
-        if filepath.endswith('.parquet'):
-            df = pd.read_parquet(filepath)
+        target_path = filepath
+    elif filepath is None:
+        candidate_paths = [
+            "data/creditcard.csv",
+            "creditcard.csv",
+            os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "creditcard.csv")
+        ]
+        target_path = next((p for p in candidate_paths if os.path.exists(p)), None)
+
+    df = None
+    if target_path and os.path.exists(target_path):
+        logger.info(f"Loading transaction records from {target_path}")
+        if target_path.endswith('.parquet'):
+            df = pd.read_parquet(target_path)
         else:
-            df = pd.read_csv(filepath)
+            df = pd.read_csv(target_path)
     elif allow_synthetic_fallback:
         fallback_path = "data/synthetic_transactions.csv"
         sample_path = "data/sample_transactions.csv"
@@ -41,14 +52,14 @@ def load_dataset(
                 random_state=random_state
             )
     else:
-        raise FileNotFoundError(f"Transaction data file not found at: {filepath}")
+        raise FileNotFoundError(f"Transaction data file not found at: {filepath or 'data/creditcard.csv'}")
 
     # Validate Schema
     missing_cols = set(EXPECTED_COLUMNS) - set(df.columns)
     if missing_cols:
         raise ValueError(f"Dataset missing required columns: {missing_cols}")
 
-    if sample_size and sample_size < len(df):
+    if sample_size and sample_size > 0 and sample_size < len(df):
         logger.info(f"Sampling {sample_size} records stratified by Class...")
         fraud_df = df[df['Class'] == 1]
         legit_df = df[df['Class'] == 0]
