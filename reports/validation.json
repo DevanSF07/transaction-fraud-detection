@@ -1,0 +1,35 @@
+{
+  "tests": 14,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "test_seconds": 2.005,
+  "real_data_runs": [
+    "reports/verification/metrics.json",
+    "reports/default/metrics.json"
+  ],
+  "additional_executed_checks": [
+    "Actual Kaggle ZIP downloaded and source SHA-256 verified",
+    "Saved model replay reproduced 70 chronological test predictions",
+    "CLI scores in 40-row then 30-row batches reproduced all 70 predictions with persisted history",
+    "Standalone CLI explain executed with ensemble SHAP additivity check and LIME output",
+    "Standalone CLI audit executed on original 284807-row CSV",
+    "Notebook code cells compiled"
+  ],
+  "source_file_sha256": {
+    "fraudlab/__init__.py": "97bd50daf61277cf97e2dc38e644b7de9e565eeee6998892465740c5ebdb5749",
+    "fraudlab/cli.py": "dcb7d92321fda9899b5c6416b3159fbd24843c188c5d2fea492e7cb20ea42a77",
+    "fraudlab/data.py": "75c598b786ffa52dec236c35d94d0c479bea4039792d9a727ebc2eec4affd4c8",
+    "fraudlab/explain.py": "804dbe466147562c1f18bd77822e1645dcb76124a8d99512a73b102b482fd7d1",
+    "fraudlab/features.py": "1763b360cd6107706a265da9be37c769d219a8eb8df494c42f2ed8ceca93e3c1",
+    "fraudlab/metrics.py": "a4202fffa9b6f60d19af24ea9487e7d3e365cdff44ae44abc9689b40170272d2",
+    "fraudlab/model.py": "43b637bfac29fd7574f68ec81a3cd271ed127dc4d69eaf0dec96d89dd30485f0",
+    "fraudlab/run.py": "504f95f1ef8dbf8287aa533b77adcd60567cfe7ec68594a7bd5605b322d0665c"
+  },
+  "limitations": [
+    "No production deployment or API latency claim",
+    "No attempt to reproduce historical resume metrics",
+    "MCAR masking is simulated; source transactions and labels are real",
+    "Imputer convergence warnings remain visible in the measured reports"
+  ]
+}

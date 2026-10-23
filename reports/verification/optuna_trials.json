@@ -1,0 +1,48 @@
+[
+  {
+    "number": 0,
+    "value": 0.765008898175337,
+    "params": {
+      "rf_depth": 9,
+      "rf_leaf": 5,
+      "rf_features": "sqrt",
+      "xgb_depth": 2,
+      "learning_rate": 0.033061864353420685,
+      "min_child_weight": 1,
+      "subsample": 0.9598528437324805,
+      "colsample": 0.8404460046972835,
+      "reg_lambda": 3.5610194390854946,
+      "xgb_weight": 0.21235069657748148
+    },
+    "attributes": {
+      "fold_average_precision": [
+        0.8072884527375557,
+        0.6725468860473525,
+        0.815191355741103
+      ]
+    }
+  },
+  {
+    "number": 1,
+    "value": 0.7652292339413043,
+    "params": {
+      "rf_depth": 9,
+      "rf_leaf": 5,
+      "rf_features": "sqrt",
+      "xgb_depth": 2,
+      "learning_rate": 0.030283798754968776,
+      "min_child_weight": 1,
+      "subsample": 0.970523820373836,
+      "colsample": 0.8496334108689462,
+      "reg_lambda": 3.9412235908480446,
+      "xgb_weight": 0.20738670173896245
+    },
+    "attributes": {
+      "fold_average_precision": [
+        0.8076084429844715,
+        0.6729695444556614,
+        0.8151097143837799
+      ]
+    }
+  }
+]

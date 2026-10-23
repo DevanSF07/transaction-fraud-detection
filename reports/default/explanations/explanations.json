@@ -1,0 +1,374 @@
+[
+  {
+    "row_in_explanation_batch": 0,
+    "ensemble_score": 0.9884230666731796,
+    "shap_expected_score": 0.04533153212907465,
+    "shap_additivity_error": 4.085287941268945e-08,
+    "shap_all_contributions": {
+      "Time": -0.0021513019265828933,
+      "V1": 0.004778192909279716,
+      "V2": 0.005253657566312387,
+      "V3": 0.058301232783171744,
+      "V4": 0.1342172777621456,
+      "V5": 0.001161834157999193,
+      "V6": -0.0006690290069284644,
+      "V7": 0.006947017374008957,
+      "V8": -0.0071428176784850885,
+      "V9": 0.012603733265619204,
+      "V10": 0.11927426617361217,
+      "V11": 0.06043783698407642,
+      "V12": 0.11477244907636812,
+      "V13": 0.008388207987593273,
+      "V14": 0.24862246041888303,
+      "V15": 0.00024817581550320045,
+      "V16": 0.028272120803737755,
+      "V17": 0.12779881206942575,
+      "V18": -0.0002400711567736866,
+      "V19": -0.0005401976051223617,
+      "V20": -0.0022023994664180724,
+      "V21": 0.002431491588268564,
+      "V22": 0.000698991539530631,
+      "V23": -0.0003769705991352093,
+      "V24": 0.004026403315022176,
+      "V25": 0.0022945899492608293,
+      "V26": -0.0007524306125364964,
+      "V27": 0.0030934389722369485,
+      "V28": 0.0035146736491625565,
+      "stream_time_gap": -0.0028050121836941,
+      "stream_amount_lag1": 0.0034220055219538214,
+      "stream_amount_lag2": 0.0005409730049535733,
+      "stream_mean_prior10": -0.0004427666204492014,
+      "stream_ema_prior": -0.00040022095034036116,
+      "log_amount": 0.006890252264647947,
+      "relative_day_sin": 0.002132031500001665,
+      "relative_day_cos": 0.0006926667506750396,
+      "amount_was_missing": 0.0
+    },
+    "top_shap": [
+      {
+        "feature": "V14",
+        "transformed_value": -10.758183274156341,
+        "contribution_to_score": 0.24862246041888303
+      },
+      {
+        "feature": "V4",
+        "transformed_value": 3.528617908302898,
+        "contribution_to_score": 0.1342172777621456
+      },
+      {
+        "feature": "V17",
+        "transformed_value": -3.394933594016152,
+        "contribution_to_score": 0.12779881206942575
+      },
+      {
+        "feature": "V10",
+        "transformed_value": -4.30390051749355,
+        "contribution_to_score": 0.11927426617361217
+      },
+      {
+        "feature": "V12",
+        "transformed_value": -5.579234789898727,
+        "contribution_to_score": 0.11477244907636812
+      },
+      {
+        "feature": "V11",
+        "transformed_value": 1.8121698515716238,
+        "contribution_to_score": 0.06043783698407642
+      },
+      {
+        "feature": "V3",
+        "transformed_value": -4.629411759375859,
+        "contribution_to_score": 0.058301232783171744
+      },
+      {
+        "feature": "V16",
+        "transformed_value": -2.0333402763244104,
+        "contribution_to_score": 0.028272120803737755
+      }
+    ],
+    "lime_rules": [
+      {
+        "rule": "V14 <= -0.50",
+        "weight": 0.06365781925335771
+      },
+      {
+        "rule": "V4 > 0.35",
+        "weight": 0.06070079481087387
+      },
+      {
+        "rule": "V12 <= -0.42",
+        "weight": 0.031090971684135056
+      },
+      {
+        "rule": "V13 <= -0.54",
+        "weight": 0.020489568954312427
+      },
+      {
+        "rule": "V25 > 0.33",
+        "weight": 0.013828285412871703
+      },
+      {
+        "rule": "V3 <= -0.25",
+        "weight": 0.012696921742465346
+      },
+      {
+        "rule": "V10 <= -0.43",
+        "weight": 0.010816482996360963
+      },
+      {
+        "rule": "Time > 0.49",
+        "weight": 0.009057798930913505
+      }
+    ],
+    "lime_local_surrogate_r2": 0.39588259910738444,
+    "interpretation": "Associations with this model score, not causal explanations; inputs are selected, imputed, robust-scaled features. PCA meanings are unknown. LIME perturbations may violate transaction/temporal constraints."
+  },
+  {
+    "row_in_explanation_batch": 1,
+    "ensemble_score": 0.06008912426135507,
+    "shap_expected_score": 0.04533153212907465,
+    "shap_additivity_error": 2.271604855608178e-09,
+    "shap_all_contributions": {
+      "Time": -0.0037308699684779085,
+      "V1": 0.004428935097989721,
+      "V2": 0.0018727593752517573,
+      "V3": 0.008645676310513885,
+      "V4": -0.017284992008710247,
+      "V5": -2.554516798860206e-05,
+      "V6": 0.00041154310509332207,
+      "V7": 0.001964023164075983,
+      "V8": 0.0053380984628273,
+      "V9": 0.0013534429120099847,
+      "V10": 0.005621032357218739,
+      "V11": -0.0009618991397084731,
+      "V12": -0.009081232712535752,
+      "V13": -0.012962458671777862,
+      "V14": 0.04815073142871897,
+      "V15": -0.0007151507276101346,
+      "V16": 0.0002697788311872897,
+      "V17": 0.002912187999103848,
+      "V18": -0.005837782618874225,
+      "V19": -0.0028286413178879284,
+      "V20": -0.006586514557616172,
+      "V21": -0.0014758461900407937,
+      "V22": -0.0013797115512395838,
+      "V23": -0.003140471698654414,
+      "V24": -0.005524197431527493,
+      "V25": -0.0030286812637475968,
+      "V26": -0.00257539173651825,
+      "V27": -0.00041876032088898656,
+      "V28": -0.00034811391168937855,
+      "stream_time_gap": 0.00011854551006898324,
+      "stream_amount_lag1": 0.00457293968733334,
+      "stream_amount_lag2": -0.0005492131539545654,
+      "stream_mean_prior10": 0.00014372421853564923,
+      "stream_ema_prior": -7.597605357689107e-05,
+      "log_amount": 0.002579267575944474,
+      "relative_day_sin": 0.005251306851821428,
+      "relative_day_cos": -0.00034494828078413854,
+      "amount_was_missing": 0.0
+    },
+    "top_shap": [
+      {
+        "feature": "V14",
+        "transformed_value": -1.3934995620443202,
+        "contribution_to_score": 0.04815073142871897
+      },
+      {
+        "feature": "V4",
+        "transformed_value": -0.40896987026522447,
+        "contribution_to_score": -0.017284992008710247
+      },
+      {
+        "feature": "V13",
+        "transformed_value": 0.3193359544139791,
+        "contribution_to_score": -0.012962458671777862
+      },
+      {
+        "feature": "V12",
+        "transformed_value": 0.023359069307332277,
+        "contribution_to_score": -0.009081232712535752
+      },
+      {
+        "feature": "V3",
+        "transformed_value": -0.761090392917329,
+        "contribution_to_score": 0.008645676310513885
+      },
+      {
+        "feature": "V20",
+        "transformed_value": 0.2239744092520035,
+        "contribution_to_score": -0.006586514557616172
+      },
+      {
+        "feature": "V18",
+        "transformed_value": -0.3156293445114072,
+        "contribution_to_score": -0.005837782618874225
+      },
+      {
+        "feature": "V10",
+        "transformed_value": -0.811365872357691,
+        "contribution_to_score": 0.005621032357218739
+      }
+    ],
+    "lime_rules": [
+      {
+        "rule": "V14 <= -0.50",
+        "weight": 0.06011881585950285
+      },
+      {
+        "rule": "-0.57 < V4 <= -0.19",
+        "weight": -0.024513993367054607
+      },
+      {
+        "rule": "V17 > 0.41",
+        "weight": 0.023499848211472163
+      },
+      {
+        "rule": "-0.01 < V12 <= 0.50",
+        "weight": -0.01786271069067882
+      },
+      {
+        "rule": "V7 > 0.53",
+        "weight": 0.010446995816129722
+      },
+      {
+        "rule": "-0.02 < V13 <= 0.43",
+        "weight": -0.008917436052612327
+      },
+      {
+        "rule": "V3 <= -0.25",
+        "weight": 0.007964756918364993
+      },
+      {
+        "rule": "-0.14 < V1 <= 0.59",
+        "weight": 0.007514126915311341
+      }
+    ],
+    "lime_local_surrogate_r2": 0.2950557384868465,
+    "interpretation": "Associations with this model score, not causal explanations; inputs are selected, imputed, robust-scaled features. PCA meanings are unknown. LIME perturbations may violate transaction/temporal constraints."
+  },
+  {
+    "row_in_explanation_batch": 2,
+    "ensemble_score": 0.008550993570719766,
+    "shap_expected_score": 0.04533153212907465,
+    "shap_additivity_error": 2.2428424811815617e-09,
+    "shap_all_contributions": {
+      "Time": -0.0003213680559549185,
+      "V1": -0.002506817838137634,
+      "V2": -0.000615198811215249,
+      "V3": 0.0025073639020965267,
+      "V4": -0.006597140437978517,
+      "V5": -0.000694458553985776,
+      "V6": -9.476354347621394e-05,
+      "V7": -0.003197972604797858,
+      "V8": 0.002191431592056239,
+      "V9": -0.0012424624594841891,
+      "V10": -0.0013221992682506734,
+      "V11": 0.00018501164541982951,
+      "V12": -0.0036322011296068516,
+      "V13": -0.0007749769246481079,
+      "V14": -0.004182260966707747,
+      "V15": -0.000544894734093641,
+      "V16": -0.000328963783892031,
+      "V17": -0.0007405590491261569,
+      "V18": -0.0021718664528155244,
+      "V19": -0.0012474464110041122,
+      "V20": -0.0010289561918501574,
+      "V21": -0.00046311845196139094,
+      "V22": 0.00027507105689117867,
+      "V23": -0.0025761316798386313,
+      "V24": -0.00044921614416577773,
+      "V25": -0.0007066207119202362,
+      "V26": -0.0009276586208582553,
+      "V27": -0.0006703110228701922,
+      "V28": 5.2299512602440585e-05,
+      "stream_time_gap": -0.004241577651763655,
+      "stream_amount_lag1": -0.004162408429950706,
+      "stream_amount_lag2": 9.257494904965767e-05,
+      "stream_mean_prior10": 0.000138470817955091,
+      "stream_ema_prior": -0.00013121476162942993,
+      "log_amount": 0.0015283734460187718,
+      "relative_day_sin": 0.0018869766199024732,
+      "relative_day_cos": -6.534516552097536e-05,
+      "amount_was_missing": 0.0
+    },
+    "top_shap": [
+      {
+        "feature": "V4",
+        "transformed_value": -0.2976952976781272,
+        "contribution_to_score": -0.006597140437978517
+      },
+      {
+        "feature": "stream_time_gap",
+        "transformed_value": 0.0,
+        "contribution_to_score": -0.004241577651763655
+      },
+      {
+        "feature": "V14",
+        "transformed_value": -0.11054507645063973,
+        "contribution_to_score": -0.004182260966707747
+      },
+      {
+        "feature": "stream_amount_lag1",
+        "transformed_value": -0.28230032841869884,
+        "contribution_to_score": -0.004162408429950706
+      },
+      {
+        "feature": "V12",
+        "transformed_value": 0.3708641632175588,
+        "contribution_to_score": -0.0036322011296068516
+      },
+      {
+        "feature": "V7",
+        "transformed_value": -0.02461334676803165,
+        "contribution_to_score": -0.003197972604797858
+      },
+      {
+        "feature": "V23",
+        "transformed_value": 0.41978353512784883,
+        "contribution_to_score": -0.0025761316798386313
+      },
+      {
+        "feature": "V3",
+        "transformed_value": -1.295745899015933,
+        "contribution_to_score": 0.0025073639020965267
+      }
+    ],
+    "lime_rules": [
+      {
+        "rule": "-0.57 < V4 <= -0.19",
+        "weight": -0.02563662952323373
+      },
+      {
+        "rule": "V8 <= -0.43",
+        "weight": 0.022567838312699217
+      },
+      {
+        "rule": "stream_amount_lag1 <= -0.24",
+        "weight": -0.020504257863032088
+      },
+      {
+        "rule": "V20 <= -0.35",
+        "weight": 0.01897084789199707
+      },
+      {
+        "rule": "-0.01 < V12 <= 0.50",
+        "weight": -0.018819637544163513
+      },
+      {
+        "rule": "-0.50 < V14 <= -0.09",
+        "weight": -0.016950992831880448
+      },
+      {
+        "rule": "relative_day_sin <= -0.43",
+        "weight": 0.012888061743629553
+      },
+      {
+        "rule": "stream_time_gap <= 0.00",
+        "weight": -0.012246833474472366
+      }
+    ],
+    "lime_local_surrogate_r2": 0.14896900349137432,
+    "interpretation": "Associations with this model score, not causal explanations; inputs are selected, imputed, robust-scaled features. PCA meanings are unknown. LIME perturbations may violate transaction/temporal constraints."
+  }
+]

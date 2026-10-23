@@ -1,33 +1,21 @@
-"""Pytest shared fixtures for transaction fraud test suite."""
-
-import pytest
 import numpy as np
 import pandas as pd
-from fraud_detection.data.generator import generate_benchmark_dataset
-
-
-@pytest.fixture(scope="session")
-def sample_benchmark_df():
-    """Generates a compact, fast benchmark slice with 1,000 records."""
-    df = generate_benchmark_dataset(
-        total_samples=1000,
-        fraud_samples=15,
-        missing_values_to_inject=50,
-        random_state=42
-    )
-    return df
-
+import pytest
+from fraudlab.data import INPUTS
 
 @pytest.fixture
-def clean_synthetic_features():
-    """Returns a clean feature matrix and binary target with zero missing values."""
-    rng = np.random.default_rng(42)
-    n = 200
-    cols = ['Time'] + [f'V{i}' for i in range(1, 29)] + ['Amount']
-    X = pd.DataFrame(rng.normal(0, 1, size=(n, len(cols))), columns=cols)
-    X['Time'] = np.sort(rng.uniform(0, 86400, size=n))
-    X['Amount'] = np.abs(rng.normal(50, 30, size=n)) + 1.0
+def transactions():
+    # Toy data is solely for unit tests, never a runtime fallback or benchmark.
+    rng=np.random.default_rng(1)
+    x=pd.DataFrame(rng.normal(size=(120,30)),columns=INPUTS)
+    x["Time"]=np.arange(len(x),dtype=float)
+    x["Amount"]=rng.uniform(1,100,len(x))
+    x["Class"]=0;x.loc[np.arange(3,120,10),"Class"]=1
+    x["source_row"]=np.arange(len(x))
+    return x
 
-    y = pd.Series(np.zeros(n, dtype=int), name='Class')
-    y.iloc[:10] = 1  # 5% fraud rate
-    return X, y
+@pytest.fixture
+def config():
+    return dict(seed=42,threads=1,cv_folds=2,optuna_trials=1,rf_trees=8,xgb_trees=8,
+        imputer_iterations=2,imputer_neighbors=4,correlation_threshold=.85,vif_threshold=10.,
+        selector_sample_size=100,rus_ratio=.2,smote_ratio=1.,smote_neighbors=3)

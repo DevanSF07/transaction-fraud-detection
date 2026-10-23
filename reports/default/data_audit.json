@@ -1,0 +1,58 @@
+{
+  "source_url": "https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud",
+  "file_sha256": "76274b691b16a6c49d3f159c883398e03ccd6d1ee12d9d8ee38f4b4b98551a89",
+  "file_bytes": 150828752,
+  "raw_rows": 284807,
+  "raw_class_counts": {
+    "0": 284315,
+    "1": 492
+  },
+  "raw_missing_input_cells": 0,
+  "exact_duplicate_rows": 1081,
+  "deduplicate": true,
+  "used_rows": 283726,
+  "used_fraud_rows": 473,
+  "columns": [
+    "Time",
+    "V1",
+    "V2",
+    "V3",
+    "V4",
+    "V5",
+    "V6",
+    "V7",
+    "V8",
+    "V9",
+    "V10",
+    "V11",
+    "V12",
+    "V13",
+    "V14",
+    "V15",
+    "V16",
+    "V17",
+    "V18",
+    "V19",
+    "V20",
+    "V21",
+    "V22",
+    "V23",
+    "V24",
+    "V25",
+    "V26",
+    "V27",
+    "V28",
+    "Amount",
+    "Class"
+  ],
+  "time_range_seconds": [
+    0.0,
+    172792.0
+  ],
+  "limitations": [
+    "No card/customer IDs",
+    "V1-V28 business meanings undisclosed",
+    "Time is elapsed time, not verified local clock time",
+    "Two-day historical sample"
+  ]
+}

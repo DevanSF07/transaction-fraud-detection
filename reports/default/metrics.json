@@ -1,0 +1,243 @@
+{
+  "created_utc": "2026-10-23T12:18:51.774294+00:00",
+  "dataset": {
+    "source_url": "https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud",
+    "file_sha256": "76274b691b16a6c49d3f159c883398e03ccd6d1ee12d9d8ee38f4b4b98551a89",
+    "file_bytes": 150828752,
+    "raw_rows": 284807,
+    "raw_class_counts": {
+      "0": 284315,
+      "1": 492
+    },
+    "raw_missing_input_cells": 0,
+    "exact_duplicate_rows": 1081,
+    "deduplicate": true,
+    "used_rows": 283726,
+    "used_fraud_rows": 473,
+    "columns": [
+      "Time",
+      "V1",
+      "V2",
+      "V3",
+      "V4",
+      "V5",
+      "V6",
+      "V7",
+      "V8",
+      "V9",
+      "V10",
+      "V11",
+      "V12",
+      "V13",
+      "V14",
+      "V15",
+      "V16",
+      "V17",
+      "V18",
+      "V19",
+      "V20",
+      "V21",
+      "V22",
+      "V23",
+      "V24",
+      "V25",
+      "V26",
+      "V27",
+      "V28",
+      "Amount",
+      "Class"
+    ],
+    "time_range_seconds": [
+      0.0,
+      172792.0
+    ],
+    "limitations": [
+      "No card/customer IDs",
+      "V1-V28 business meanings undisclosed",
+      "Time is elapsed time, not verified local clock time",
+      "Two-day historical sample"
+    ]
+  },
+  "experiment": "original Kaggle data with controlled MCAR missingness",
+  "injected_missing_cells": 45000,
+  "split_policy": "chronological 60/20/20 by default, tied outer timestamps kept together",
+  "splits": {
+    "train": {
+      "rows": 170235,
+      "frauds": 342,
+      "prevalence": 0.002008987575997885,
+      "time_min": 0.0,
+      "time_max": 120392.0,
+      "injected_cells": 27000,
+      "input_missing_cells_after_mask": 27000
+    },
+    "validation": {
+      "rows": 56745,
+      "frauds": 57,
+      "prevalence": 0.0010044937879989425,
+      "time_min": 120393.0,
+      "time_max": 145233.0,
+      "injected_cells": 9000,
+      "input_missing_cells_after_mask": 9000
+    },
+    "test": {
+      "rows": 56746,
+      "frauds": 74,
+      "prevalence": 0.0013040566735981391,
+      "time_min": 145234.0,
+      "time_max": 172792.0,
+      "injected_cells": 9000,
+      "input_missing_cells_after_mask": 9000
+    }
+  },
+  "best_params": {
+    "rf_depth": 9,
+    "rf_leaf": 5,
+    "rf_features": "sqrt",
+    "xgb_depth": 2,
+    "learning_rate": 0.033061864353420685,
+    "min_child_weight": 1,
+    "subsample": 0.9598528437324805,
+    "colsample": 0.8404460046972835,
+    "reg_lambda": 3.5610194390854946,
+    "xgb_weight": 0.21235069657748148
+  },
+  "resampling": {
+    "original": {
+      "legitimate": 169893,
+      "fraud": 342
+    },
+    "after_rus": {
+      "legitimate": 3420,
+      "fraud": 342
+    },
+    "after_smote": {
+      "legitimate": 3420,
+      "fraud": 3420
+    },
+    "smote_neighbors": 5
+  },
+  "validation": {
+    "rows": 56745,
+    "frauds": 57,
+    "prevalence": 0.0010044937879989425,
+    "roc_auc": 0.9829500720471797,
+    "average_precision": 0.7689058284368033,
+    "pr_auc_trapezoidal": 0.7683279886308055,
+    "threshold": 0.7247682436445286,
+    "precision": 0.5348837209302325,
+    "recall": 0.8070175438596491,
+    "f1": 0.6433566433566433,
+    "alerts": 86,
+    "confusion_matrix": {
+      "tn": 56648,
+      "fp": 40,
+      "fn": 11,
+      "tp": 46
+    }
+  },
+  "baseline_validation": {
+    "rows": 56745,
+    "frauds": 57,
+    "prevalence": 0.0010044937879989425,
+    "roc_auc": 0.943898210456992,
+    "average_precision": 0.7559020962858037,
+    "pr_auc_trapezoidal": 0.7550894892286885,
+    "threshold": 0.15550268712466742,
+    "precision": 0.40707964601769914,
+    "recall": 0.8070175438596491,
+    "f1": 0.5411764705882353,
+    "alerts": 113,
+    "confusion_matrix": {
+      "tn": 56621,
+      "fp": 67,
+      "fn": 11,
+      "tp": 46
+    }
+  },
+  "test": {
+    "rows": 56746,
+    "frauds": 74,
+    "prevalence": 0.0013040566735981391,
+    "roc_auc": 0.9854313393715567,
+    "average_precision": 0.7775243049143062,
+    "pr_auc_trapezoidal": 0.7770983189144376,
+    "threshold": 0.7247682436445286,
+    "precision": 0.5,
+    "recall": 0.7972972972972973,
+    "f1": 0.6145833333333334,
+    "alerts": 118,
+    "confusion_matrix": {
+      "tn": 56613,
+      "fp": 59,
+      "fn": 15,
+      "tp": 59
+    }
+  },
+  "baseline_test": {
+    "rows": 56746,
+    "frauds": 74,
+    "prevalence": 0.0013040566735981391,
+    "roc_auc": 0.9730823029056725,
+    "average_precision": 0.7937525380705731,
+    "pr_auc_trapezoidal": 0.7934641690264785,
+    "threshold": 0.15550268712466742,
+    "precision": 0.48,
+    "recall": 0.8108108108108109,
+    "f1": 0.6030150753768844,
+    "alerts": 125,
+    "confusion_matrix": {
+      "tn": 56607,
+      "fp": 65,
+      "fn": 14,
+      "tp": 60
+    }
+  },
+  "precision_uplift_pct_vs_named_baseline": 4.166666666666674,
+  "baseline_definition": "RF without resampling, class_weight=balanced_subsample, same training-only preprocessing; each threshold chosen on validation under the same recall target",
+  "threshold_policy": "maximize validation precision subject to validation recall >= 0.8; test recall is not constrained",
+  "latency": {
+    "scope": "pretransformed batch model scoring only; excludes preprocessing, I/O and service overhead",
+    "batch_rows": 56746,
+    "median_batch_seconds": 0.19108778099985102,
+    "amortized_ms_per_row": 0.0033674229196745324,
+    "repetitions": 5
+  },
+  "stage_seconds": {
+    "fold_preparation": 38.68476868099992,
+    "optuna_search": 135.23154586200008,
+    "final_preprocessing": 15.11880704300006,
+    "final_hybrid_fit": 2.1794208669998625,
+    "baseline_fit": 81.82181486699983,
+    "plots_latency_explanations": 2.330184498000108
+  },
+  "total_seconds": 286.3349272339999,
+  "warnings": [
+    "ConvergenceWarning: [IterativeImputer] Early stopping criterion not reached.",
+    "ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/fraud-build-venv/lib/python3.12/site-packages/lime/bundle.js' mode='r' encoding='utf8'>"
+  ],
+  "environment": {
+    "python": "3.12.14",
+    "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+    "packages": {
+      "numpy": "2.3.5",
+      "pandas": "2.2.3",
+      "scikit-learn": "1.7.2",
+      "imbalanced-learn": "0.14.0",
+      "xgboost": "3.0.5",
+      "optuna": "4.5.0",
+      "shap": "0.49.1",
+      "lime": "0.2.0.1"
+    }
+  },
+  "limitations": [
+    "Temporal features are global-stream features, not per-customer behavior",
+    "Missingness is deliberately injected, not a property of the original dataset",
+    "Single chained imputation, not pooled multiple-imputation uncertainty",
+    "Scores not calibrated after resampling",
+    "Two-day dataset cannot demonstrate production drift robustness",
+    "SHAP/LIME describe model associations; PCA business semantics remain unknown",
+    "Historical CV results are not targets or asserted reproduced values"
+  ],
+  "explanation_rows": 3
+}

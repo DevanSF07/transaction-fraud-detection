@@ -1,0 +1,24 @@
+# Full dataset, actual measurements, no score targets.
+seed: 42
+threads: 2
+missing_cells: 45000       # Controlled MCAR stress experiment; original data is complete.
+deduplicate: true
+train_fraction: 0.60
+validation_fraction: 0.20
+cv_folds: 5
+optuna_trials: 15
+imputer_iterations: 10
+imputer_neighbors: 8
+correlation_threshold: 0.85
+vif_threshold: 10.0
+selector_sample_size: 5000
+rolling_window: 10
+ema_alpha: 0.30
+rus_ratio: 0.10
+smote_ratio: 1.0
+smote_neighbors: 5
+target_validation_recall: 0.80
+rf_trees: 150
+xgb_trees: 200
+explain_samples: 3
+lime_samples: 1500

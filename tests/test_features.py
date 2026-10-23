@@ -1,33 +1,44 @@
-"""Tests for temporal and sequential feature extraction."""
-
-import pytest
 import numpy as np
 import pandas as pd
-from fraud_detection.features.temporal import TemporalFeatureExtractor
+import pytest
+from fraudlab.data import INPUTS
+from fraudlab.features import stream_features,CollinearitySelector,make_preprocessor
 
+def test_causality_and_batch_equivalence(transactions):
+    raw=transactions[INPUTS]
+    full,state=stream_features(raw)
+    first,s=stream_features(raw.iloc[:60]);second,t=stream_features(raw.iloc[60:],s)
+    pd.testing.assert_frame_equal(full,pd.concat([first,second]))
+    assert state==t
+    modified=raw.copy();modified.loc[60:,"Amount"]=999999
+    other,_=stream_features(modified)
+    pd.testing.assert_frame_equal(full.iloc[:60],other.iloc[:60])
 
-def test_temporal_feature_extractor():
-    df = pd.DataFrame({
-        'Time': [100.0, 250.0, 400.0, 800.0, 1200.0],
-        'Amount': [10.0, 50.0, 20.0, 100.0, 30.0]
-    })
-    extractor = TemporalFeatureExtractor(
-        lag_steps=[1, 2],
-        ema_alpha=0.3,
-        rolling_window=3,
-        diurnal_period_hours=24.0,
-        use_log_amount=True
-    )
-    df_trans = extractor.fit_transform(df)
+def test_current_amount_excluded_from_history(transactions):
+    x,_=stream_features(transactions[INPUTS])
+    assert np.isnan(x.stream_mean_prior10.iloc[0])
+    assert x.stream_amount_lag1.iloc[1]==transactions.Amount.iloc[0]
+    assert x.stream_ema_prior.iloc[1]==transactions.Amount.iloc[0]
 
-    expected_cols = [
-        'Time', 'Amount', 'time_delta', 'amount_lag1', 'amount_lag2',
-        'amount_ema', 'amount_ema_diff', 'amount_rolling_mean_3',
-        'amount_rolling_std_3', 'sin_time', 'cos_time', 'amount_log'
-    ]
-    for col in expected_cols:
-        assert col in df_trans.columns
+def test_reject_past_transaction(transactions):
+    _,state=stream_features(transactions[INPUTS].iloc[:10])
+    with pytest.raises(ValueError,match="order"):
+        stream_features(transactions[INPUTS].iloc[:1],state)
 
-    # Verify diurnal trigonometry ranges
-    assert (df_trans['sin_time'] >= -1.0).all() and (df_trans['sin_time'] <= 1.0).all()
-    assert (df_trans['cos_time'] >= -1.0).all() and (df_trans['cos_time'] <= 1.0).all()
+def test_selector_prunes_linear_redundancy():
+    rng=np.random.default_rng(1);a=rng.normal(size=(200,3))
+    x=np.column_stack([a,a[:,0]+a[:,1],np.ones(200)])
+    selector=CollinearitySelector(correlation_threshold=.99,vif_threshold=10).fit(x)
+    assert len(selector.indices_)==3
+    assert max(selector.final_vifs_)<=10
+
+def test_preprocessor_does_not_learn_from_validation(transactions,config):
+    raw=transactions[INPUTS].copy();raw.loc[1:5,"V1"]=np.nan
+    x,_=stream_features(raw)
+    prep=make_preprocessor(config);prep.fit(x.iloc[:80])
+    imputer=prep.named_steps["mice"]
+    initial=imputer.initial_imputer_.statistics_.copy()
+    extreme=x.iloc[80:].copy();extreme["V1"]=1e9
+    result=prep.transform(extreme)
+    np.testing.assert_array_equal(initial,imputer.initial_imputer_.statistics_)
+    assert np.isfinite(result).all()

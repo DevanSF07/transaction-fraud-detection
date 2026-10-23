@@ -1,0 +1,29 @@
+{
+  "train": {
+    "rows": 170235,
+    "frauds": 342,
+    "prevalence": 0.002008987575997885,
+    "time_min": 0.0,
+    "time_max": 120392.0,
+    "injected_cells": 27000,
+    "input_missing_cells_after_mask": 27000
+  },
+  "validation": {
+    "rows": 56745,
+    "frauds": 57,
+    "prevalence": 0.0010044937879989425,
+    "time_min": 120393.0,
+    "time_max": 145233.0,
+    "injected_cells": 9000,
+    "input_missing_cells_after_mask": 9000
+  },
+  "test": {
+    "rows": 56746,
+    "frauds": 74,
+    "prevalence": 0.0013040566735981391,
+    "time_min": 145234.0,
+    "time_max": 172792.0,
+    "injected_cells": 9000,
+    "input_missing_cells_after_mask": 9000
+  }
+}
